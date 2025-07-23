@@ -66,6 +66,7 @@ class UserDAO extends BaseDAO {
   }
   
   private def mapResultSetToUser(rs: ResultSet): User = {
+    val avgRating = rs.getDouble("average_rating")
     User(
       id = Some(rs.getLong("id")),
       email = rs.getString("email"),
@@ -73,7 +74,7 @@ class UserDAO extends BaseDAO {
       firstName = rs.getString("first_name"),
       lastName = rs.getString("last_name"),
       phone = rs.getString("phone"),
-      averageRating = Option(rs.getDouble("average_rating")).filter(_ != 0),
+      averageRating = if (rs.wasNull() || avgRating == 0.0) None else Some(avgRating),
       createdAt = rs.getTimestamp("created_at").toLocalDateTime,
       isActive = rs.getBoolean("is_active")
     )

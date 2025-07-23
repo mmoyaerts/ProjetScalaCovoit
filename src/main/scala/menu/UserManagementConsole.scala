@@ -39,8 +39,9 @@ class UserManagementConsole {
           case "5" => manageTrips()
           case "6" => manageReservations()
           case "7" => managePayments()
-          case "8" => deleteAccount()
-          case "9" => logout()
+          case "8" => manageRatings() // Nouvelle méthode
+          case "9" => deleteAccount()
+          case "10" => logout()
           case _ => println("Choix invalide")
         }
       }
@@ -55,6 +56,7 @@ class UserManagementConsole {
   }
   
   private def showUserMenu(): Unit = {
+    // Code existant mais avec le menu mis à jour
     println(s"\n=== Bienvenue ${currentUser.get.firstName} ===")
     println("1. Voir mon profil")
     println("2. Modifier mon profil")
@@ -63,8 +65,9 @@ class UserManagementConsole {
     println("5. Gérer mes trajets")
     println("6. Gérer mes réservations")
     println("7. Gérer mes paiements")
-    println("8. Supprimer mon compte")
-    println("9. Se déconnecter")
+    println("8. Système de notation")
+    println("9. Supprimer mon compte")
+    println("10. Se déconnecter")
   }
   
   private def manageTrips(): Unit = {
@@ -126,7 +129,16 @@ class UserManagementConsole {
     println(s"Email: ${user.email}")
     println(s"Nom: ${user.firstName} ${user.lastName}")
     println(s"Téléphone: ${user.phone}")
-    println(s"Note moyenne: ${user.averageRating.getOrElse("Aucune note")}")
+    
+    // Affichage amélioré de la note avec étoiles
+    user.averageRating match {
+      case Some(rating) =>
+        val stars = "⭐" * rating.round.toInt + "☆" * (5 - rating.round.toInt)
+        println(s"Note moyenne: ${rating.formatted("%.2f")}/5 $stars")
+      case None =>
+        println("Note moyenne: Aucune note")
+    }
+    
     println(s"Membre depuis: ${user.createdAt}")
   }
   
@@ -378,5 +390,10 @@ class UserManagementConsole {
   private def logout(): Unit = {
     currentUser = None
     println("Déconnexion réussie")
+  }
+  
+  private def manageRatings(): Unit = {
+    val ratingConsole = new RatingManagementConsole(currentUser.get)
+    ratingConsole.start()
   }
 }
