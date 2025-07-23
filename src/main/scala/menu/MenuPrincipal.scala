@@ -1,5 +1,0 @@
-package menu
-
-class MenuPrincipal {
-
-}
