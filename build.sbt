@@ -6,3 +6,8 @@ lazy val root = (project in file("."))
   .settings(
     name := "TPDs"
   )
+
+libraryDependencies ++= Seq(
+  "org.postgresql" % "postgresql" % "42.7.1",
+  "org.mindrot" % "jbcrypt" % "0.4"
+)

@@ -1,4 +1,4 @@
-import utils.DBConnection
+package utils
 
 import java.sql.{Connection, DriverManager}
 import scala.util.{Failure, Success, Try}
