@@ -39,9 +39,10 @@ class UserManagementConsole {
           case "5" => manageTrips()
           case "6" => manageReservations()
           case "7" => managePayments()
-          case "8" => manageRatings() // Nouvelle méthode
-          case "9" => deleteAccount()
-          case "10" => logout()
+          case "8" => manageRatings()
+          case "9" => manageMessages()
+          case "10" => deleteAccount()
+          case "11" => logout()
           case _ => println("Choix invalide")
         }
       }
@@ -66,8 +67,9 @@ class UserManagementConsole {
     println("6. Gérer mes réservations")
     println("7. Gérer mes paiements")
     println("8. Système de notation")
-    println("9. Supprimer mon compte")
-    println("10. Se déconnecter")
+    println("9. Messagerie")
+    println("10. Supprimer mon compte")
+    println("11. Se déconnecter")
   }
   
   private def manageTrips(): Unit = {
@@ -395,5 +397,10 @@ class UserManagementConsole {
   private def manageRatings(): Unit = {
     val ratingConsole = new RatingManagementConsole(currentUser.get)
     ratingConsole.start()
+  }
+  
+  private def manageMessages(): Unit = {
+    val messageConsole = new MessageManagementConsole(currentUser.get)
+    messageConsole.start()
   }
 }

@@ -88,11 +88,18 @@ object DatabaseSchema {
       id SERIAL PRIMARY KEY,
       sender_id BIGINT REFERENCES users(id),
       receiver_id BIGINT REFERENCES users(id),
-      subject VARCHAR(255) NOT NULL,
       content TEXT NOT NULL,
       is_read BOOLEAN DEFAULT FALSE,
       sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
+    """,
+    
     """
+    CREATE INDEX idx_messages_receiver_id ON messages(receiver_id);
+    CREATE INDEX idx_messages_sender_id ON messages(sender_id);
+    CREATE INDEX idx_messages_conversation ON messages(sender_id, receiver_id);
+    CREATE INDEX idx_messages_sent_at ON messages(sent_at);
+    CREATE INDEX idx_messages_unread ON messages(receiver_id, is_read);
+    """,
   )
 }
